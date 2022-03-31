@@ -13,11 +13,11 @@ contract Staker {
 
     uint256 public constant threshold = 1 ether;
 
-    uint256 public deadline = block.timestamp + 30 seconds;
+    uint256 public deadline = block.timestamp + 72 hours;
 
     bool public openForWithdraw = false;
 
-    constructor(address exampleExternalContractAddress) public {
+    constructor(address exampleExternalContractAddress) {
         exampleExternalContract = ExampleExternalContract(
             exampleExternalContractAddress
         );

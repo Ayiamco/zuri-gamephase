@@ -637,7 +637,13 @@ function App(props) {
 
       <div style={{ marginTop: 32, opacity: 0.5 }}>
         {/* Add your address here */}
-        Created by <Address value={"Your...address"} ensProvider={mainnetProvider} fontSize={16} />
+        Created by{" "}
+        <Address value={"0x321e8A5E9b4aDfA80D76BAe352283EAc22dC2995"} ensProvider={mainnetProvider} fontSize={16} />
+      </div>
+
+      <div style={{ marginTop: 32, opacity: 0.5 }}>
+        {/* Add your address here */}
+        Edited by <a href="https://twitter.com/JosephAchonu">Joseph Achonu</a>
       </div>
 
       <div style={{ marginTop: 32, opacity: 0.5 }}>
