@@ -11,21 +11,32 @@ contract Vendor is Ownable {
 
     uint256 public constant tokensPerEth = 100;
 
-    uint256 tokenPrice = 1 ether / tokensPerEth; //token sold at 100 Tokens per ETH
-
     constructor(address tokenAddress) {
         yourToken = YourToken(tokenAddress);
     }
 
     function buyTokens() public payable {
-        uint256 tokens = msg.value / tokenPrice;
+        uint256 tokens = msg.value * tokensPerEth;
         yourToken.transfer(msg.sender, tokens);
         emit BuyTokens(msg.sender, msg.value, tokens);
     }
 
-    function withdraw() public onlyOwner {
-        yourToken.transfer(msg.sender, 1000);
+    function withdraw() public payable onlyOwner {
+        address payable _to = _make_payable(msg.sender);
+        (bool sent, bytes memory data) = _to.call{value: msg.value}("");
+        require(sent, "Failed to send Ether");
     }
 
-    // ToDo: create a sellTokens() function:
+    function _make_payable(address x) internal pure returns (address payable) {
+        return payable(x);
+    }
+
+    function sellTokens(uint256 amount) public payable {
+        yourToken.transferFrom(msg.sender, address(this), amount);
+        address payable payableAddress = _make_payable(msg.sender);
+        (bool sent, bytes memory data) = payableAddress.call{
+            value: amount / tokensPerEth
+        }("");
+        require(sent, "Failed to send Ether");
+    }
 }
